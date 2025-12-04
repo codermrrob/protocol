@@ -1,0 +1,11 @@
+[package]
+name = "oclp_nft"
+version = "0.1.0"
+edition = "2024.beta"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "be94dd334013778401c035a04dd6b7bcc5c17121" }
+
+
+[addresses]
+oclp = "0x0"
