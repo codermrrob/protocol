@@ -185,7 +185,8 @@ module oclp::oclp_package {
     /// 
     /// This is the primary composability entry point. Domain contracts call
     /// this to receive an OCLPPackage, then create their own NFT that is
-    /// the owner of the OCLPPackage object.
+    /// the owner of the OCLPPackage object. The dependency_merkle_roots
+    /// parameter is limited to approx 500 hashes.
     ///
     /// # Returns
     /// The minted OCLPPackage, owned by the calling context
@@ -199,11 +200,11 @@ module oclp::oclp_package {
         manifest_integrity_algo: u8,
         manifest_hash: vector<u8>,
         manifest_storage_blob_ref: vector<u8>,
+        dependency_merkle_roots: vector<vector<u8>>,
         clock: &Clock,
         mint_cap: &mut OCLPMintCap,
         ctx: &mut tx_context::TxContext
     ): OCLPPackage {
-        
         let sender = tx_context::sender(ctx);
         
         assert!(
@@ -269,6 +270,7 @@ module oclp::oclp_package {
             minter: tx_context::sender(ctx),
             content_package_name: nft.content_package_name,
             merkle_root: nft.merkle_root,
+            dependency_merkle_roots,
             minted_at_ms: created_at,
             oclp_package_version: OCLP_PACKAGE_VERSION,
         });
@@ -321,6 +323,7 @@ module oclp::oclp_package {
         manifest_integrity_algo: u8,
         manifest_hash: vector<u8>,
         manifest_storage_blob_ref: vector<u8>,
+        dependency_merkle_roots: vector<vector<u8>>,
         clock: &Clock,
         mint_cap: &mut OCLPMintCap,
         ctx: &mut tx_context::TxContext
@@ -335,6 +338,7 @@ module oclp::oclp_package {
             manifest_integrity_algo,
             manifest_hash,
             manifest_storage_blob_ref,
+            dependency_merkle_roots,
             clock,
             mint_cap,
             ctx,
